@@ -1,0 +1,87 @@
+theta = <|xi - s|>/y    --> small angle approximation, actually == tan(theta) but theta is small
+--> s = center of mass
+--> <|xi - s|> average distance from all the particles in the quadrant - the radius of the quadrant
+
+recursively calculate the forces:
+if theta is small enough, add the moments to the forces
+if not, go to the correct next quadrant
+
+have a vector of particle structs -> mass, position (x, y, z), acceleration(x, y, z)
+use Eigen? We will only have a 3x3 matrix multiplication... 
+ --> I think so, a lot of the stuff is matrix and vector manipulation, so it's easier to just use operator overloads as opposed to defining functions
+
+BUILDING THE TREE:
+Have the build function in the same h file, but not in the class
+
+the tree is built iteratively by placing particles, each must be in its own quadrant
+
+for now: place first particle to start the tree? yes
+
+if a particle lands in a quadrant that is "occupied", create a new subquadrant and attach it to the right pointer
+the right pointer can be determined by:
+ to the left of right of center
+ above or below center
+  
+then, re-place the particle that is in the current node, don't forget to set it to unoccupied 
+
+For every quadrant a particle visits, it will have to check which sub branch to go down --> 3 checks
+If the corresponding pointer is null, create a quadrant and place the particle
+
+update every quadrant a particle passes through with its information
+- the center of mass
+- the mass
+
+!!! Quadropoles and "radii" need to be built after tree construction is complete as they rely on the final CoM, which changes during construction
+    --> Done by traversing the tree
+    --> 
+node has a particle in it == all 4 pointers are null
+
+we store each quadrant (but dont store empty ones)
+ --> linked list? each quadrant points to 4 sub quadrants (empty ones are null)
+each quadrant is a class object
+member variables:
+- center of mass coordinate
+- "radius"
+- monopole (mass)
+- quadropole
+- id of the particle that is in it --> if the id is -1 --> unoccupied
+- center coordinate
+- side length (better than ranges)
+- 4 pointers to subquadrants (null if empty)
+
+member functions:
+- update CoM
+- update radius
+- update quadropole
+- constructor, destructor (no copy or anything needed)
+
+constructor:
+ - center of mass coordinate = coordinate of new particle
+ - radius = 0?
+ - monopole = m
+ - quadropole = idk yet
+ - id = id of the particle
+ - length = parent length / 2
+ - center coordinate = center coordinate of parent node +- ((length of parent)/2) in every direction
+ - all pointers set to null
+
+do we build the tree every time step? probably. means we also have to destroy it every step, oh well
+
+
+CALCULATING FORCES:
+for every point:
+ calculateforce(first quadrant, i)
+
+
+calculate(quadrant, i):
+ calculate theta and check if < thetac
+ if yes
+  actually calculate force
+  - calculate the potential using the mono- and quadropole
+  - differentiate the potential for force
+  - save the force into the particle
+ if no
+  calculate(top left, i)
+  calculate(top right, i)
+  calculate(bottom left, i)
+  calculate(bottom right, i)
