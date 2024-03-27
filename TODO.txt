@@ -1,0 +1,5 @@
+CLEAN IT UP
+put multipole and particle into correct headers and source files
+go through main and get rid of comments and clean it up --> if we want different outputs, make them command line arguments!
+gitignore
+cmake / build
