@@ -1,5 +1,11 @@
 CLEAN IT UP
+install eigen locally
+maybe make a simulation class? it can hold the oct-tree and hold most of the functions that are currently in the main file
 put multipole and particle into correct headers and source files
 go through main and get rid of comments and clean it up --> if we want different outputs, make them command line arguments!
+--> command line argument for n-body brute force and multipole expansion
 gitignore
 cmake / build
+
+
+try and run it with like... less data points? altough, overhead, might be funny and still take forever
