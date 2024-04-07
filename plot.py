@@ -2,14 +2,14 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-file = 'results/forces.txt'
+file = 'results/tree_test_run.txt'
 
 data = np.loadtxt(file)
 
-x = np.asarray(data[0])
-y = np.asarray(data[1])
-z = np.asarray(data[2])
-f = np.asarray(data[3])
+f = np.asarray(data[0])
+x = np.asarray(data[1])
+y = np.asarray(data[2])
+z = np.asarray(data[3])
 
 fig1 = plt.figure(1)
 ax = fig1.add_subplot(111, projection='3d')
